@@ -45,6 +45,10 @@ public class formulario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         lno = new javax.swing.JLabel();
         lsi = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -133,12 +137,34 @@ public class formulario extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(100, 30, 510, 400);
 
+        jMenu2.setText("Inicio");
+
+        jMenuItem1.setText("Reportes");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("Salir");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
       
-       
+       this.show();
       lnumero.setText(String.valueOf(encuesta.getConsecutivo()));
     }//GEN-LAST:event_formWindowActivated
 
@@ -162,13 +188,16 @@ public class formulario extends javax.swing.JFrame {
                    encuesta.setSinVehiculo();
                }
            encuesta.SetSalvarDatos(tnombre.getText(), tienecarro, Integer.parseInt(tedad.getText()), tcorreo.getText());
-           lnumero.setText(String.valueOf(encuesta.getConsecutivo()));
+           lnumero.setText(String.valueOf(ClsEncuesta.getConsecutivo()));
            encuesta.setConsecutivo();
-           lsi.setText(String.valueOf(encuesta.getConVehiculo()));
-           lno.setText(String.valueOf(encuesta.getSinVehiculo()));
+           lsi.setText(String.valueOf(ClsEncuesta.getConVehiculo()));
+           lno.setText(String.valueOf(ClsEncuesta.getSinVehiculo()));
           } 
                 
- 
+        tnombre.setText("");
+        tedad.setText("");
+        tcorreo.setText("");
+        rsi.setSelected(true);
         } 
         else {
         JOptionPane.showMessageDialog(null, "Los campos estan en blanco");
@@ -181,6 +210,17 @@ public class formulario extends javax.swing.JFrame {
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
         
     }//GEN-LAST:event_jButton1MouseEntered
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+          FrmReporte reporte = new FrmReporte();
+          reporte.setSize(700, 500);
+          reporte.setVisible(true);
+          
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,6 +267,10 @@ public class formulario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lno;
     private javax.swing.JLabel lnumero;

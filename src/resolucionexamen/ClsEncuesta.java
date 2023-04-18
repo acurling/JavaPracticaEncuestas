@@ -2,6 +2,7 @@
 package resolucionexamen;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 
 public class ClsEncuesta {
@@ -18,9 +19,31 @@ public class ClsEncuesta {
           ConVehiculo = 0;
           SinVehiculo = 0;
     }
+    
+    
+    public static void BuscarPornombre( String Nombre){
+        
+        Boolean encontrado = false;
+        String Vehiculo="No tiene Vehiculo";
+        for (int i = 0; i < ClsEncuesta.nombre.size(); i++) 
+        {
+            
+            if (ClsEncuesta.nombre.get(i).toLowerCase().equals(Nombre.toLowerCase())) 
+            {
+                encontrado = true;
+                if ( ClsEncuesta.carro.get(i)) {
+                    Vehiculo="Si tiene Vehiculo";
+                }
+               JOptionPane.showMessageDialog(null, "Nombre: " + ClsEncuesta.nombre.get(i) +  "\n\nEdad: " + ClsEncuesta.edad.get(i) + "\n\nCarro: " + Vehiculo );
+               break;
+            }
+           
+        }
+                 if (!encontrado) JOptionPane.showMessageDialog(null, "NO existe");
+    }
 
     // Get para ver el siguiente numero de la encuesta
-    public  int getConsecutivo() {
+    public static int getConsecutivo() {
         return consecutivo;
     }
    
@@ -29,7 +52,7 @@ public class ClsEncuesta {
         ClsEncuesta.consecutivo ++;
     }
     
-     public   void setConVehiculo() {
+     public    void setConVehiculo() {
         ClsEncuesta.ConVehiculo ++;
     }
     
@@ -37,11 +60,11 @@ public class ClsEncuesta {
         ClsEncuesta.SinVehiculo ++;
     }
       
-       public  int getConVehiculo() {
+       public static  int getConVehiculo() {
         return ConVehiculo;
     }
 
-public  int getSinVehiculo() {
+public static  int getSinVehiculo() {
         return SinVehiculo;
     }
     
