@@ -15,11 +15,12 @@ public class ClsEncuesta {
    static int consecutivo;
    
     public ClsEncuesta() {
-          consecutivo = 10;
+          consecutivo = 1;
           ConVehiculo = 0;
           SinVehiculo = 0;
     }
     
+    public ClsEncuesta(String nombre) {}
     
     public static void BuscarPornombre( String Nombre){
         

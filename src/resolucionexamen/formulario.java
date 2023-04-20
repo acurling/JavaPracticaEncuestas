@@ -4,7 +4,9 @@
  */
 package resolucionexamen;
 
+
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,9 +15,14 @@ import javax.swing.JOptionPane;
 public class formulario extends javax.swing.JFrame {
 
    ClsEncuesta encuesta = new ClsEncuesta();
-   
+   DefaultTableModel modeloTabla = new DefaultTableModel();
+   boolean tienecarro = false;
+
     public formulario() {
         initComponents();
+        String[] columnas = new String[]{"Nombre:", "Edad:", "Correo:,","Tiene Vehiculo"};
+        modeloTabla.setColumnIdentifiers(columnas);
+        TablaEncuesta.setModel(modeloTabla);
     }
 
     /**
@@ -45,6 +52,11 @@ public class formulario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         lno = new javax.swing.JLabel();
         lsi = new javax.swing.JLabel();
+        bagregar = new javax.swing.JButton();
+        bborrar = new javax.swing.JButton();
+        bmodificar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaEncuesta = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -100,7 +112,7 @@ public class formulario extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(140, 260, 170, 60);
+        jButton1.setBounds(40, 240, 130, 40);
 
         jLabel4.setText("Correo");
         jPanel1.add(jLabel4);
@@ -120,22 +132,65 @@ public class formulario extends javax.swing.JFrame {
 
         jLabel6.setText("No Tienen Carro");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(390, 220, 110, 16);
+        jLabel6.setBounds(380, 170, 110, 16);
 
         jLabel7.setText("Tienen Carro");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(400, 110, 80, 16);
+        jLabel7.setBounds(390, 80, 80, 16);
 
         lno.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.add(lno);
-        lno.setBounds(400, 250, 60, 40);
+        lno.setBounds(400, 200, 50, 40);
 
         lsi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.add(lsi);
-        lsi.setBounds(400, 150, 60, 40);
+        lsi.setBounds(400, 110, 60, 40);
+
+        bagregar.setText("Agregar");
+        bagregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bagregarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bagregar);
+        bagregar.setBounds(40, 310, 100, 40);
+
+        bborrar.setText("Borrar");
+        bborrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bborrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bborrar);
+        bborrar.setBounds(160, 310, 100, 40);
+
+        bmodificar.setText("Modifcar");
+        bmodificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bmodificarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bmodificar);
+        bmodificar.setBounds(280, 310, 110, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(100, 30, 510, 400);
+        jPanel1.setBounds(20, 20, 490, 400);
+
+        TablaEncuesta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaEncuesta);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(530, 110, 390, 180);
 
         jMenu2.setText("Inicio");
 
@@ -179,14 +234,9 @@ public class formulario extends javax.swing.JFrame {
            } 
             else 
            {
-               boolean tienecarro = false;
-               if (rsi.isSelected()) {
-                   tienecarro = true;
-                   encuesta.setConVehiculo();
-               } else if (rno.isSelected()) {
-                   tienecarro = false;
-                   encuesta.setSinVehiculo();
-               }
+              ConsultaDeVehiculo();
+              Insertar();
+               
            encuesta.SetSalvarDatos(tnombre.getText(), tienecarro, Integer.parseInt(tedad.getText()), tcorreo.getText());
            lnumero.setText(String.valueOf(ClsEncuesta.getConsecutivo()));
            encuesta.setConsecutivo();
@@ -207,10 +257,54 @@ public class formulario extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    public void ConsultaDeVehiculo()
+    {
+        if (rsi.isSelected()) 
+               {
+                   tienecarro = true;
+                   encuesta.setConVehiculo();
+               } else if (rno.isSelected())
+               {
+                   tienecarro = false;
+                   encuesta.setSinVehiculo();
+               }
+    }
+    
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
         
     }//GEN-LAST:event_jButton1MouseEntered
 
+    public void Modificar(){
+        String mensaje = "";
+        int fila = TablaEncuesta.getSelectedRow();
+        modeloTabla.setValueAt(tnombre.getText(), fila, 0);
+         modeloTabla.setValueAt(tedad.getText(), fila, 1);
+          modeloTabla.setValueAt(tcorreo.getText(), fila, 2);
+
+          
+          if (rsi.isSelected()) 
+                  mensaje = "Si";
+               else if (rno.isSelected())
+                   mensaje = "No";
+          modeloTabla.setValueAt(mensaje, fila, 3);
+          
+    }
+    
+    public void Borrar() {
+        int fila = TablaEncuesta.getSelectedRow();
+       modeloTabla.removeRow(fila);
+    }
+
+    public void Insertar() 
+    {
+        String mensaje ="";
+        if (tienecarro == true) 
+            mensaje= rsi.getText();
+         else mensaje= rno.getText();
+        
+       modeloTabla.addRow(new Object[] {tnombre.getText(),tedad.getText(),tcorreo.getText(),mensaje});
+    }
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
           FrmReporte reporte = new FrmReporte();
           reporte.setSize(700, 500);
@@ -221,6 +315,18 @@ public class formulario extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
        System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void bagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bagregarActionPerformed
+        Insertar();
+    }//GEN-LAST:event_bagregarActionPerformed
+
+    private void bmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmodificarActionPerformed
+       Modificar();
+    }//GEN-LAST:event_bmodificarActionPerformed
+
+    private void bborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bborrarActionPerformed
+       Borrar();
+    }//GEN-LAST:event_bborrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,6 +364,10 @@ public class formulario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TablaEncuesta;
+    private javax.swing.JButton bagregar;
+    private javax.swing.JButton bborrar;
+    private javax.swing.JButton bmodificar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -272,6 +382,7 @@ public class formulario extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lno;
     private javax.swing.JLabel lnumero;
     private javax.swing.JLabel lsi;
